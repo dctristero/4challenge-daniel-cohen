@@ -4,7 +4,7 @@ var mainEl = document.getElementById("main");
 var initEl = document.getElementById("init");
 var qArea = document.getElementById("Q-area");
 var aArea = document.getElementById("A-area");
-var secondsLeft = 10;
+var secondsLeft = 30;
 var a1Btn = document.getElementById("a1");
 var a2Btn = document.getElementById("a2");
 var a3Btn = document.getElementById("a3");
@@ -129,7 +129,7 @@ function check(event) {
     }, 1000);
   }
   else {
-    punish(10);
+    punish(5);
     next();
     feedback.innerHTML = "how dare you";
     feedbackExpiration = setTimeout(function () {
