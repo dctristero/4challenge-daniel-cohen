@@ -4,7 +4,7 @@ var mainEl = document.getElementById("main");
 var initEl = document.getElementById("init");
 var qArea = document.getElementById("Q-area");
 var aArea = document.getElementById("A-area");
-var secondsLeft = 30;
+var secondsLeft = 90;
 var a1Btn = document.getElementById("a1");
 var a2Btn = document.getElementById("a2");
 var a3Btn = document.getElementById("a3");
@@ -69,9 +69,11 @@ function showInit() {
   initEl.classList.toggle("hide");
 }
 
+var timerInterval;
+
 function setTime() {
   // Sets interval in variable
-  var timerInterval = setInterval(function() {
+  timerInterval = setInterval(function() {
     secondsLeft--;
     timeEl.textContent = secondsLeft;
     if(secondsLeft === 0) {
@@ -129,7 +131,7 @@ function check(event) {
     }, 1000);
   }
   else {
-    punish(5);
+    punish(10);
     next();
     feedback.innerHTML = "how dare you";
     feedbackExpiration = setTimeout(function () {
@@ -179,10 +181,11 @@ function next() {
 }
 
 function endQuiz() {
+  clearInterval(timerInterval);
   qArea.classList.toggle("hide");
   aArea.classList.toggle("hide");
   form.classList.toggle("hide");
   timeEl.classList.toggle("hide");
   message.textContent = 
-  "I'm so proud of you just for existing. Your score is " + secondsLeft + "."
+  "I'm so proud of you just for existing. Your score is " + secondsLeft + ".";
 }
