@@ -14,6 +14,10 @@ var aBtn = document.querySelectorAll(".A-btn");
 var feedback = document.getElementById("feedback");
 var feedbackExpiration;
 var message = document.getElementById("message");
+var initials = document.getElementById("initials");
+var inputField = document.getElementById("input");
+var submitBtn = document.getElementById("submit");
+var scoresArea = document.getElementById("scores-area");
 
 
 // object full of objects for Qs and corresponding A arrays
@@ -188,4 +192,41 @@ function endQuiz() {
   timeEl.classList.toggle("hide");
   message.textContent = 
   "I'm so proud of you just for existing. Your score is " + secondsLeft + ".";
+  initials.textContent = 
+  "put your initials here or whatever you feel like"
+}
+
+submitBtn.addEventListener("click", record);
+
+var gamesArray = [];
+
+// this doesn't quite work yet
+
+function record(event) {
+  event.preventDefault();
+  var input = inputField.value.trim();
+  var score = secondsLeft;
+  var game = {
+    player: input,
+    number: score,
+  };
+  gamesArray.push(game);
+  console.log(gamesArray);
+  localStorage.setItem("storedgames", JSON.stringify(gamesArray));
+  var storedgames = JSON.parse(localStorage.getItem("storedgames"));
+  gamesArray = storedgames;
+}
+
+// var inputs = [];
+// var scores = [];
+// var games = [];
+
+// function record() {
+//   localStorage.setItem("storedinputs", JSON.stringify(inputs));
+//   localStorage.setItem("storedscored", JSON.stringify(scores));
+// }
+
+function showScores() {
+  form.classList.toggle("hide");
+  scoresArea.classList.toggle("hide");
 }
