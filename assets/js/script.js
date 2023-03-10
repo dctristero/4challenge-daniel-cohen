@@ -18,6 +18,8 @@ var initials = document.getElementById("initials");
 var inputField = document.getElementById("input");
 var submitBtn = document.getElementById("submit");
 var scoresArea = document.getElementById("scores-area");
+var scoreList = document.getElementById("scorelist");
+var reloadBtn = document.getElementById("reload");
 
 
 // object full of objects for Qs and corresponding A arrays
@@ -69,36 +71,24 @@ var A4 = quizChunks[current].ans4;
 showInit();
 
 
-function showInit() {
+function showInit(event) {
   initEl.classList.toggle("hide");
 }
 
 var timerInterval;
 
 function setTime() {
-  // Sets interval in variable
   timerInterval = setInterval(function() {
     secondsLeft--;
     timeEl.textContent = secondsLeft;
     if(secondsLeft === 0) {
-      // Stops execution of action at set interval
       clearInterval(timerInterval);
       endQuiz();
-      // Calls function to create and append image
-      // sendMessage();
     }
 
   }, 1000);
 }
-// Function for message at end of timer
-// function sendMessage() {
-//   timeEl.textContent = "0";
-// // instead of img, append item to enter initials/score
 
-// //   var imgEl = document.createElement("img");
-// //   imgEl.setAttribute("src", "images/image_1.jpg");
-// //   mainEl.appendChild(imgEl);
-// }
 
 startBtn.addEventListener("click", function() {
     setTime();
@@ -198,9 +188,6 @@ function endQuiz() {
 
 submitBtn.addEventListener("click", record);
 
-var gamesArray = [];
-
-// this doesn't quite work yet
 
 function record(event) {
   event.preventDefault();
@@ -210,23 +197,35 @@ function record(event) {
     player: input,
     number: score,
   };
-  gamesArray.push(game);
-  console.log(gamesArray);
-  localStorage.setItem("storedgames", JSON.stringify(gamesArray));
-  var storedgames = JSON.parse(localStorage.getItem("storedgames"));
-  gamesArray = storedgames;
+  var storedGames = JSON.parse(localStorage.getItem("storedgames"))||[];
+  storedGames.push(game);
+  localStorage.setItem("storedgames", JSON.stringify(storedGames));
+  
+  console.log(storedGames);
+  showScores();
 }
 
-// var inputs = [];
-// var scores = [];
-// var games = [];
 
-// function record() {
-//   localStorage.setItem("storedinputs", JSON.stringify(inputs));
-//   localStorage.setItem("storedscored", JSON.stringify(scores));
-// }
 
 function showScores() {
   form.classList.toggle("hide");
   scoresArea.classList.toggle("hide");
+  var storedGames = JSON.parse(localStorage.getItem("storedgames"))||[];
+  storedGames.sort(function(a,b){
+    return b.number - a.number
+  });
+
+  for(var i=0; i < storedGames.length; i++) {
+ 
+      var createLi = document.createElement("li");
+      createLi.textContent = storedGames[i].player + " " + storedGames[i].number;
+      scoreList.appendChild(createLi);
+  
+  }
+}
+
+reloadBtn.addEventListener("click", reload);
+
+function reload() {
+  location.reload();
 }
